@@ -9,7 +9,7 @@ export default function ModalsLayout() {
         headerShown: true,
         tabBarShowLabel: true,
         headerStyle: {
-          backgroundColor: 'rgba(255,255,255,0.07)',
+          backgroundColor: '#2c2c2c',
           backdropFilter: 'blur(10px)', // работает только в web — можно игнорить
           shadowOpacity: 0, // убираем тень в iOS
           elevation: 0, // убираем тень в Android
@@ -31,6 +31,12 @@ export default function ModalsLayout() {
         name="add-wallet"
         options={{
           title: 'Добавление счета', // Вот здесь задаем заголовок
+        }}
+      />
+      <Stack.Screen
+        name="add-operation"
+        options={{
+          title: 'Добавление операции', // Вот здесь задаем заголовок
         }}
       />
     </Stack>

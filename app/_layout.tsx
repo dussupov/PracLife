@@ -8,8 +8,10 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import {Provider} from "react-redux";
-import {store} from "@/redux";
+import {store, persistor} from "@/redux";
 import {ToastProvider} from "react-native-toast-notifications";
+import { PersistGate } from 'redux-persist/integration/react';
+import {Text} from 'react-native'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,6 +34,7 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
+      <PersistGate loading={<Text>Загрузка...</Text>} persistor={persistor}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <ToastProvider
           placement="top" // 👈 выводить тост сверху
@@ -51,6 +54,7 @@ export default function RootLayout() {
           <StatusBar style="auto" />
         </ToastProvider>
       </ThemeProvider>
+      </PersistGate>
     </Provider>
   );
 }

@@ -5,6 +5,9 @@ import { BlurView } from "expo-blur";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Feather from '@expo/vector-icons/Feather';
+
 
 const TabBarBackground = () => (
   <BlurView
@@ -38,12 +41,11 @@ export default function TabLayout() {
         tabBarInactiveTintColor: '#ffffff',
         tabBarBackground: () => <TabBarBackground />,
         headerStyle: {
-          backgroundColor: 'rgba(255,255,255,0.07)',
+          backgroundColor: '#2c2c2c',
           backdropFilter: 'blur(10px)', // работает только в web — можно игнорить
           shadowOpacity: 0, // убираем тень в iOS
           elevation: 0, // убираем тень в Android
           borderBottomWidth: 0,
-          fontFamily: 'Montserrat_700Bold', // шрифт для заголовка
         },
         headerTitleStyle: {
           fontSize: 20,
@@ -72,7 +74,6 @@ export default function TabLayout() {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          fontFamily: 'Montserrat_400Regular', // шрифт для таббара
         },
       }}
     >
@@ -94,14 +95,22 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* Модальный экран */}
       <Tabs.Screen
-        name="add-wallet"
+        name="analytics"
         options={{
-          tabBarStyle: { display: 'none' },  // Скрываем этот экран в TabBar
-          headerShown: true,  // Убираем хедер для модального экрана
-          presentation: 'modal',  // Настроим экран как модальный
-          animationTypeForReplace: 'fade',  // Плавная анимация при открытии модала
+          title: 'Аналитика',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="analytics-sharp" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Настройки',
+          tabBarIcon: ({ color }) => (
+            <Feather name="settings" size={24} color={color} />
+          ),
         }}
       />
     </Tabs>

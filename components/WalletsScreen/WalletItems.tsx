@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import formatMoney from "@/scripts/formatMoney";
 
 type WalletType = {
   type: string;
@@ -18,7 +19,6 @@ type WalletType = {
   icon: JSX.Element;
   sumPrice?: number;
 };
-
 
 const WalletItems = () => {
   const walletStore = useSelector((state: RootState) => state.wallet);
@@ -84,7 +84,7 @@ const WalletItems = () => {
                 <Text style={styles.headerText}>{label}</Text>
               </View>
               <View style={styles.headerRight}>
-                <Text style={styles.headerTextPrice}>{sumPrice} ₸</Text>
+                <Text style={styles.headerTextPrice}>{formatMoney(sumPrice)} ₸</Text>
                 <AntDesign
                   name={openSections[type] ? 'up' : 'down'}
                   size={18}
@@ -101,7 +101,7 @@ const WalletItems = () => {
                   </View>
                   <View style={styles.walletItemRight}>
                     <Text style={styles.walletName}>{item.name}</Text>
-                    <Text style={styles.walletValue}>{item.value} ₸</Text>
+                    <Text style={styles.walletValue}>{formatMoney(item.value)} ₸</Text>
                   </View>
                 </View>
               ))}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    padding: 10,
+    paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   headerTextPrice: {
     fontSize: 14,
-    color: '#ccc',
+    color: 'white',
   },
   headerText: {
     color: 'white',

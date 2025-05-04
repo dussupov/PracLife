@@ -1,27 +1,43 @@
-import {View, StyleSheet, Text} from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { RootState } from "@/redux";
+import { useSelector } from "react-redux";
+import OperationEmpty from "@/components/OperationScreen/OperationEmpty";
+import OperationItems from "@/components/OperationScreen/OperationItems";
+import OperationAdd from "@/components/OperationScreen/OperationAdd";
 
 const Operation = () => {
+  const operationStore = useSelector((state: RootState) => state.operation);
+
   return (
-    <View
-      style={styles.container}
-    >
-      <Text style={styles.text}>
-        123
-      </Text>
+    <View style={styles.wrapper}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {operationStore.operations && operationStore.operations.length <= 0
+          ? <OperationEmpty />
+          : <OperationItems />}
+      </ScrollView>
+
+      {/* "Фиксированная" кнопка */}
+      <OperationAdd />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: 'rgb(28,28,28)',
+  },
   container: {
     flex: 1,
-    paddingTop: 80, // учитывая прозрачный хедер
-    paddingHorizontal: 20,
-    backgroundColor: 'rgb(28,28,28)', // лёгкий прозрачный фон
   },
-  text: {
-    fontSize: 20,
-    color: '#fe2942',  // Устанавливаем цвет шрифта
+  scrollContent: {
+    paddingTop: 80,
+    paddingHorizontal: 20,
+    paddingBottom: 200,
   },
 });
 

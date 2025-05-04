@@ -9,7 +9,7 @@ const WalletAdd = () => {
   return(
     <View style={styles.container}>
       <Pressable onPress={() => router.push('/(modals)/add-wallet')}>
-        <MaterialCommunityIcons name="credit-card-plus-outline" size={24} color="black" />
+        <MaterialCommunityIcons name="credit-card-plus-outline" size={24} color="white" />
       </Pressable>
     </View>
   )

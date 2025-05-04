@@ -2,46 +2,74 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Entypo from '@expo/vector-icons/Entypo';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
 import { RootState } from '@/redux';
 import { useToast } from 'react-native-toast-notifications';
+import Dropdown from "@/components/ui/Dropdown";
 
-export default function AddWalletScreen() {
+export default function AddOperationScreen() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [accountNumber, setAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
   const [name, setName] = useState('')
-  const [errors, setErrors] = useState<{ amount?: string; accountNumber?: string; name?: string }>({});
+  const [errors, setErrors] = useState<{ amount?: string; name?: string }>({});
+  const [wallet, setWallet] = useState<string | null>(null);
 
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const operationStore = useSelector((state: RootState) => state.operation);
   const walletStore = useSelector((state: RootState) => state.wallet);
 
   const toast = useToast();
 
-  const walletAr = [
+  const operationAr = [
     {
-      name: 'Карта',
-      type: 'card',
-      icon: <AntDesign name="creditcard" size={24} color="black" />,
+      name: 'Кафе и рестораны',
+      type: 'cafe',
+      icon: <Ionicons name="cafe" size={24} color="black" />,
     },
     {
-      name: 'Банковский счёт',
-      type: 'bank_account',
-      icon: <MaterialCommunityIcons name="bank" size={24} color="black" />,
+      name: 'Продукты',
+      type: 'products',
+      icon: <MaterialCommunityIcons name="food-drumstick" size={24} color="black" />,
     },
     {
-      name: 'Наличные',
-      type: 'cash',
-      icon: <MaterialCommunityIcons name="cash-multiple" size={24} color="black" />,
+      name: 'Автомобиль',
+      type: 'car',
+      icon: <AntDesign name="car" size={24} color="black" />,
+    },
+    {
+      name: 'Подписки',
+      type: 'subscriptions',
+      icon: <MaterialIcons name="subscriptions" size={24} color="black" />,
+    },
+    {
+      name: 'Такси',
+      type: 'taxi',
+      icon: <FontAwesome5 name="taxi" size={24} color="black" />,
+    },
+    {
+      name: 'Развлечения',
+      type: 'entertainment',
+      icon: <Entypo name="game-controller" size={24} color="black" />,
+    },
+    {
+      name: 'Прочее',
+      type: 'other',
+      icon: <FontAwesome6 name="money-bill" size={24} color="black" />,
     },
   ];
 
   const handleSelect = (type: string) => {
     setSelectedType(type);
-    setAccountNumber('');
     setAmount('');
     setName('')
     setErrors({});
@@ -58,12 +86,6 @@ export default function AddWalletScreen() {
       newErrors.name = 'Введите название не менее 3 символов';
     }
 
-    if (selectedType !== 'cash') {
-      if (!accountNumber || !/^\d{8,16}$/.test(accountNumber)) {
-        newErrors.accountNumber = 'Введите корректный номер (8-20 цифр)';
-      }
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -71,18 +93,42 @@ export default function AddWalletScreen() {
   const handleSave = () => {
     if (!validateForm()) return;
 
-    const newWallet = {
+    const newOperation = {
       id: uuidv4(),
       type: selectedType,
       name: name,
-      wallet_number: accountNumber,
       value: parseFloat(amount),
+      date: new Date().toISOString(),
+      wallet: ''
     };
 
-    dispatch({ type: 'SET_WALLETS', wallets: [...walletStore.wallets, newWallet] });
-    toast.show(`${newWallet.name} успешно добавлен`, { type: 'success' });
+    let updatedWallets = walletStore.wallets.map((item) => {
+      if (item.id === wallet) {
+        newOperation.wallet = item.name;
+        return {
+          ...item,
+          value: item.value - parseFloat(amount),
+        };
+      }
+      return item;
+    })
+
+    dispatch({ type: 'SET_OPERATIONS', operations: [...operationStore.operations, newOperation] });
+    dispatch({ type: 'SET_WALLETS', wallets: updatedWallets });
+
+    toast.show(`${newOperation.name} успешно добавлен`, { type: 'success' });
     router.back();
   };
+
+  // Достаем данные счетов , для отображения в дропдауне
+  const options = walletStore.wallets.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
+
+  function handleSetWallet(item : any){
+    setWallet(item.value);
+  }
 
   return (
     <ScrollView
@@ -90,9 +136,9 @@ export default function AddWalletScreen() {
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>Выберите тип счёта:</Text>
+      <Text style={styles.title}>Выберите тип операции:</Text>
 
-      {walletAr.map((item) => (
+      {operationAr.map((item) => (
         <TouchableOpacity
           key={item.type}
           style={[styles.card, selectedType === item.type && styles.cardSelected]}
@@ -107,7 +153,7 @@ export default function AddWalletScreen() {
         <View style={styles.form}>
           <TextInput
             style={styles.input}
-            placeholder="Введите имя"
+            placeholder="Название"
             placeholderTextColor="#888"
             keyboardType="default"
             value={name}
@@ -115,21 +161,6 @@ export default function AddWalletScreen() {
           />
           {errors.name && (
             <Text style={styles.error}>{errors.name}</Text>
-          )}
-          {selectedType !== 'cash' && (
-            <>
-              <TextInput
-                style={styles.input}
-                placeholder="Введите номер счёта"
-                placeholderTextColor="#888"
-                keyboardType="number-pad"
-                value={accountNumber}
-                onChangeText={setAccountNumber}
-              />
-              {errors.accountNumber && (
-                <Text style={styles.error}>{errors.accountNumber}</Text>
-              )}
-            </>
           )}
 
           <TextInput
@@ -143,6 +174,8 @@ export default function AddWalletScreen() {
           {errors.amount && (
             <Text style={styles.error}>{errors.amount}</Text>
           )}
+
+          <Dropdown data={options} placeholder="Выберите способ платежа" getSelectedItem={handleSetWallet}/>
 
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Сохранить</Text>
@@ -220,5 +253,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-  },
+  }
 });
