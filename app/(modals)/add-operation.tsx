@@ -32,6 +32,11 @@ export default function AddOperationScreen() {
 
   const operationAr = [
     {
+      name: 'Пополнение',
+      type: 'refill',
+      icon: <Entypo name="squared-plus" size={24} color="black" />,
+    },
+    {
       name: 'Кафе и рестораны',
       type: 'cafe',
       icon: <Ionicons name="cafe" size={24} color="black" />,
@@ -104,11 +109,20 @@ export default function AddOperationScreen() {
 
     let updatedWallets = walletStore.wallets.map((item) => {
       if (item.id === wallet) {
-        newOperation.wallet = item.name;
-        return {
-          ...item,
-          value: item.value - parseFloat(amount),
-        };
+        if(selectedType === 'refill'){
+          newOperation.wallet = item.name;
+          return {
+            ...item,
+            value: item.value + parseFloat(amount),
+          };
+        }else{
+          newOperation.wallet = item.name;
+          return {
+            ...item,
+            value: item.value - parseFloat(amount),
+          };
+        }
+
       }
       return item;
     })

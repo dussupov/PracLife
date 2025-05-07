@@ -1,28 +1,33 @@
-import {ScrollView, StyleSheet} from "react-native";
+import {ScrollView, StyleSheet, View} from "react-native";
 import ResetPersistButton from "@/components/ui/ResetPersistButton";
 
 const SettingsScreen = () => {
   return(
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.scrollContent}
-      showsVerticalScrollIndicator={false}
-    >
-      <ResetPersistButton />
-    </ScrollView>
+    <View style={styles.wrapper}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+
+        <ResetPersistButton />
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
     backgroundColor: 'rgb(28,28,28)',
   },
+  container: {
+    flex: 1,
+  },
   scrollContent: {
-    paddingTop: 80, // учитывая прозрачный хедер
+    paddingTop: 80,
     paddingHorizontal: 20,
-    paddingBottom: 100, // чтобы не накладывалось на tabbar
-    height: '100%',
+    paddingBottom: 200,
   },
 })
 

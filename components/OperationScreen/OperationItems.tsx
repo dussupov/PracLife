@@ -26,6 +26,7 @@ type OperationType = {
 const OperationItems = () => {
   const operationStore = useSelector((state: RootState) => state.operation);
   const [operationType, setOperationType] = useState<OperationType[]>([
+    { name: 'Пополнение', type: 'refill', icon: <Entypo name="squared-plus" size={24} color="black" /> },
     { name: 'Кафе и рестораны', type: 'cafe', icon: <Ionicons name="cafe" size={24} color="black" /> },
     { name: 'Продукты', type: 'products', icon: <MaterialCommunityIcons name="food-drumstick" size={24} color="black" /> },
     { name: 'Автомобиль', type: 'car', icon: <AntDesign name="car" size={24} color="black" /> },
@@ -45,6 +46,7 @@ const OperationItems = () => {
     return acc;
   }, {});
 
+
   return (
     <View style={styles.container}>
       {Object.entries(groupedByDate).map(([date, operations]) => (
@@ -61,9 +63,13 @@ const OperationItems = () => {
                      <Text style={styles.operationInfoHeadText}>
                        {operationType.find((item) => item.type === op.type)?.name}
                      </Text>
-                     <Text style={styles.operationInfoHeadText}>
-                       - {formatMoney(op.value)} ₸
-                     </Text>
+                     {
+                       op.type === 'refill' ? (
+                         <Text style={{...styles.value, color: '#01c716'}}>+{formatMoney(op.value)} ₸</Text>
+                       ) : (
+                         <Text style={styles.value}>-{formatMoney(op.value)} ₸</Text>
+                       )
+                     }
                    </View>
                    <View style={styles.operationInfoBody}>
                       <Text style={{...styles.name}}>{op.name}</Text>
@@ -72,7 +78,6 @@ const OperationItems = () => {
                    </View>
                  </View>
                </View>
-
             </View>
           ))}
         </View>
