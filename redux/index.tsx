@@ -22,12 +22,14 @@ const rootReducer = combineReducers({
 });
 
 // оборачиваем walletReducer в persistReducer
+// @ts-ignore
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // создаем store
 export const store = createStore(persistedReducer, composeWithDevTools());
 
 // создаем persistor
+// @ts-ignore
 export const persistor = persistStore(store);
 
 // типизация

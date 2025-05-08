@@ -31,7 +31,7 @@ export const operationReducer = (
 
     case "SET_CURRENT_LIMITS": {
       const updatedLimits = state.limits.map((limit) => {
-        const currentLimit = action.limits.find((l) => l.type === limit.type);
+        const currentLimit = action.limits.find((l : any) => l.type === limit.type);
         return {
           ...limit,
           currentLimit: currentLimit ? currentLimit.currentLimit : limit.currentLimit,
