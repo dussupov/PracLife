@@ -68,9 +68,15 @@ const OperationsChart: React.FC<OperationsChartProps> = ({ data }) => {
         innerRadius={80}
         labels={({ datum }) => `${datum.x}: ${datum.y}₸`}
         style={{
-          labels: { fontSize: 16, fill: 'white' },
+          labels: {
+            fontSize: 14,
+            fill: 'white',
+            padding: 10,
+          },
         }}
+        labelPlacement="perpendicular"
       />
+
 
       <Text style={styles.title}>Операции</Text>
       <VictoryChart domainPadding={{ y: 40 }}>

@@ -37,14 +37,14 @@ export default function RootLayout() {
       <PersistGate loading={<Text>Загрузка...</Text>} persistor={persistor}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <ToastProvider
-          placement="top" // 👈 выводить тост сверху
+          placement="top" //
           duration={3000}
           animationType="slide-in"
           successColor="#22c55e"
           dangerColor="#ef4444"
           warningColor="#f59e0b"
           normalColor="#334155"
-          offset={10} // отступ от верха
+          offset={10} //
         >
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

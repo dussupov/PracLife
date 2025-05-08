@@ -1,5 +1,6 @@
-import {ScrollView, StyleSheet, View} from "react-native";
+import {ScrollView, StyleSheet, View, Text} from "react-native";
 import ResetPersistButton from "@/components/ui/ResetPersistButton";
+import OperationLimits from "@/components/SettingsScreen/OperationLimits";
 
 const SettingsScreen = () => {
   return(
@@ -9,7 +10,10 @@ const SettingsScreen = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <OperationLimits />
 
+        <Text style={styles.text}>Сброс</Text>
+        <Text style={styles.subtitle}>Данная кнопка сбрасывает настройки приложения</Text>
         <ResetPersistButton />
       </ScrollView>
     </View>
@@ -29,6 +33,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 200,
   },
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginVertical: 20
+  },
+  subtitle:{
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 20
+  }
 })
 
 export default SettingsScreen;

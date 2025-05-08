@@ -1,13 +1,13 @@
 // app/(tabs)/_layout.tsx
-import { Tabs } from 'expo-router';
+import { Tabs, useNavigation } from 'expo-router';
 import React from 'react';
-import { BlurView } from "expo-blur";
+import { BlurView } from 'expo-blur';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
-
+import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+import { TouchableOpacity } from 'react-native';
 
 const TabBarBackground = () => (
   <BlurView
@@ -21,6 +21,23 @@ const TabBarBackground = () => (
     }}
   />
 );
+
+const ReloadButton = () => {
+  const navigation = useNavigation();
+
+  const handleReload = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: navigation.getState().routes[navigation.getState().index].name }],
+    });
+  };
+
+  return (
+    <TouchableOpacity onPress={handleReload} style={{ marginRight: 15 }}>
+      <Ionicons name="reload" size={24} color="#ffffff" />
+    </TouchableOpacity>
+  );
+};
 
 export default function TabLayout() {
   const [fontsLoaded] = useFonts({
@@ -42,19 +59,19 @@ export default function TabLayout() {
         tabBarBackground: () => <TabBarBackground />,
         headerStyle: {
           backgroundColor: '#2c2c2c',
-          backdropFilter: 'blur(10px)', // работает только в web — можно игнорить
-          shadowOpacity: 0, // убираем тень в iOS
-          elevation: 0, // убираем тень в Android
+          shadowOpacity: 0,
+          elevation: 0,
           borderBottomWidth: 0,
         },
         headerTitleStyle: {
           fontSize: 20,
           fontWeight: '600',
-          color: '#fff', // или любой светлый текст
-          fontFamily: 'Montserrat_700Bold', // применяем шрифт
+          color: '#fff',
+          fontFamily: 'Montserrat_700Bold',
         },
-        headerTransparent: true, // делает хедер прозрачным
-        headerTintColor: '#ffffff', // цвет стрелки «назад» и иконок
+        headerTransparent: true,
+        headerTintColor: '#ffffff',
+        headerRight: () => <ReloadButton />, // добавляем кнопку перезагрузки
         tabBarStyle: {
           position: 'absolute',
           left: 20,
@@ -69,7 +86,7 @@ export default function TabLayout() {
           shadowOpacity: 0.2,
           shadowRadius: 10,
           shadowOffset: { width: 0, height: 5 },
-          elevation: 10, // для Android тень
+          elevation: 10,
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',

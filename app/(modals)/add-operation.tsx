@@ -24,6 +24,7 @@ export default function AddOperationScreen() {
 
   const dispatch = useDispatch();
   const router = useRouter();
+  const limits = useSelector((state: RootState) => state.operation.limits);
 
   const operationStore = useSelector((state: RootState) => state.operation);
   const walletStore = useSelector((state: RootState) => state.wallet);
@@ -82,6 +83,7 @@ export default function AddOperationScreen() {
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
+    const currentLimits = limits.find((item) => item.type === selectedType);
 
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
       newErrors.amount = 'Введите корректную сумму больше 0';
@@ -89,6 +91,14 @@ export default function AddOperationScreen() {
 
     if (!name || name.trim().length < 3) {
       newErrors.name = 'Введите название не менее 3 символов';
+    }
+
+    // Проверяем, что сумма не превышает общий лимит минус уже потраченные средства
+    if (selectedType !== 'refill' && currentLimits) {
+      const availableLimit = currentLimits.limit - currentLimits.currentLimit;
+      if (parseFloat(amount) > availableLimit) {
+        newErrors.amount = `Сумма не должна превышать доступный лимит`;
+      }
     }
 
     setErrors(newErrors);
@@ -109,26 +119,37 @@ export default function AddOperationScreen() {
 
     let updatedWallets = walletStore.wallets.map((item) => {
       if (item.id === wallet) {
-        if(selectedType === 'refill'){
+        if (selectedType === 'refill') {
           newOperation.wallet = item.name;
           return {
             ...item,
             value: item.value + parseFloat(amount),
           };
-        }else{
+        } else {
           newOperation.wallet = item.name;
           return {
             ...item,
             value: item.value - parseFloat(amount),
           };
         }
-
       }
       return item;
-    })
+    });
+
+    // Обновляем текущие лимиты
+    const updatedLimits = limits.map((limit) => {
+      if (limit.type === selectedType && selectedType !== 'refill') {
+        return {
+          ...limit,
+          currentLimit: limit.currentLimit + parseFloat(amount),
+        };
+      }
+      return limit;
+    });
 
     dispatch({ type: 'SET_OPERATIONS', operations: [...operationStore.operations, newOperation] });
     dispatch({ type: 'SET_WALLETS', wallets: updatedWallets });
+    dispatch({ type: 'SET_CURRENT_LIMITS', limits: updatedLimits });
 
     toast.show(`${newOperation.name} успешно добавлен`, { type: 'success' });
     router.back();

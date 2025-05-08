@@ -1,20 +1,20 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {Link, useRouter} from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-const OperationEmpty = () => {
+const AnalyticsEmpty = () => {
   const router = useRouter();
   const walletStore = useSelector((state: RootState) => state.wallet);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>К сожалению, у вас не произведено ни одной операции.</Text>
-      <MaterialCommunityIcons name="bank-transfer" size={60} color="white" />
-      <Pressable onPress={() => router.push('/(modals)/add-operation')} disabled={walletStore.wallets.length <= 0}>
+      <Text style={styles.text}>Аналитика доступна минимум с 5 операций.</Text>
+      <Ionicons name="analytics-sharp" size={60} color={'white'} />
+      <Pressable onPress={() => router.push('/(modals)/add-operation')} disabled={walletStore.wallets.length <= 5}>
         <Text style={[styles.text, styles.link]}>Добавить новую операцию</Text>
       </Pressable>
     </View>
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OperationEmpty;
+export default AnalyticsEmpty;

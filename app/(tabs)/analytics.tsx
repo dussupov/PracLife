@@ -1,12 +1,12 @@
 import {ScrollView, StyleSheet, View} from "react-native";
-import ResetPersistButton from "@/components/ui/ResetPersistButton";
 import OperationChart from "@/components/AnalyticsScreen/OperationChart";
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux";
+import AnalyticsEmpty from "@/components/AnalyticsScreen/AnalyticsEmpty";
 
 const AnalyticsScreen = () => {
 
-  const operationStore = useSelector((state: RootState) => state.operation.operations);
+  const operationStore = useSelector((state: RootState) => state.operation);
 
   return(
     <View style={styles.wrapper}>
@@ -15,7 +15,9 @@ const AnalyticsScreen = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <OperationChart data={operationStore} />
+        {operationStore.operations && operationStore.operations.length <= 0
+          ? <AnalyticsEmpty />
+          : <OperationChart data={operationStore.operations} />}
       </ScrollView>
     </View>
   )

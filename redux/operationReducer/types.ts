@@ -8,8 +8,15 @@ export interface Operation {
   wallet: string;
 }
 
+export interface Limit {
+  type: string;
+  limit: number;
+  currentLimit: number;
+}
+
 export interface AppState {
   operations: Operation[];
+  limits: Limit[];
 }
 
 export interface SetOperationAction {
@@ -17,5 +24,16 @@ export interface SetOperationAction {
   operations: any;
 }
 
+export interface SetLimitsAction {
+  type: "SET_LIMITS";
+  limits: any;
+}
 
-export type AppAction = SetOperationAction;
+export interface SetCurrentLimitsAction {
+  type: "SET_CURRENT_LIMITS";
+  limits: any;
+}
+
+
+
+export type AppAction = SetOperationAction | SetLimitsAction | SetCurrentLimitsAction;

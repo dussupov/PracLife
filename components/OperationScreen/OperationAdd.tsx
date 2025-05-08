@@ -2,13 +2,16 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { View, StyleSheet, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import React from "react";
+import {useSelector} from "react-redux";
+import {RootState} from "@/redux";
 
 const OperationAdd = () => {
   const router = useRouter();
+  const walletStore = useSelector((state: RootState) => state.wallet);
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => router.push('/(modals)/add-operation')}>
+      <Pressable onPress={() => router.push('/(modals)/add-operation')} disabled={walletStore.wallets.length <= 0}>
         <MaterialCommunityIcons name="bank-transfer" size={24} color='white' />
       </Pressable>
     </View>

@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     paddingHorizontal: 20,
     paddingBottom: 200,
+    height: '100%',
   },
 });
 
