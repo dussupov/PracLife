@@ -12,7 +12,7 @@ const AnalyticsScreen = () => {
     <View style={styles.wrapper}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, operationStore.operations.length <= 5 ? {height: '100%'} : {}]}
         showsVerticalScrollIndicator={false}
       >
         {operationStore.operations && operationStore.operations.length <= 0
