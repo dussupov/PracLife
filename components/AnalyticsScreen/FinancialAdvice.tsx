@@ -10,6 +10,8 @@ const FinancialAdvice: React.FC<FinancialAdviceProps> = ({ data }) => {
   const [advice, setAdvice] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  console.log(data)
+
   // Заменить на свой API ключ Hugging Face
   const client = new HfInference("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");
 
@@ -84,6 +86,7 @@ const FinancialAdvice: React.FC<FinancialAdviceProps> = ({ data }) => {
   );
 };
 
+// СТИЛИ
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1C1C1E',
