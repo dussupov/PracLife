@@ -11,8 +11,6 @@ export default function HomeScreen() {
   // Достаем счета из стора 
   const walletStore = useSelector((state: RootState) => state.wallet);
 
-  console.log(walletStore)
-
   return (
     <View style={styles.wrapper}>
       <ScrollView

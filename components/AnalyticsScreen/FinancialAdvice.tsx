@@ -13,6 +13,7 @@ const FinancialAdvice: React.FC<FinancialAdviceProps> = ({ data }) => {
   console.log(data)
 
   // Заменить на свой API ключ Hugging Face
+  // Здесь начинается сессия клиента
   const client = new HfInference("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");
 
   const fetchAdvice = async () => {
