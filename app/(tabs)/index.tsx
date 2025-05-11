@@ -7,18 +7,22 @@ import WalletAdd from "@/components/WalletsScreen/WalletAdd";
 import WalletBalance from "@/components/WalletsScreen/WalletBalance";
 
 export default function HomeScreen() {
+
+  // Достаем счета из стора 
   const walletStore = useSelector((state: RootState) => state.wallet);
+
+  console.log(walletStore)
 
   return (
     <View style={styles.wrapper}>
       <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+        style={styles.container} //стили для своего скрола
+        contentContainerStyle={styles.scrollContent} //стили для контейнера
+        showsVerticalScrollIndicator={false} //отключаем показ индикатора прокрутки
       >
         {
           walletStore.wallets && walletStore.wallets.length <= 0 ?
-            <WalletEmpty />
+            <WalletEmpty /> //если нет счетов
             :
             <>
               <WalletBalance />
@@ -26,12 +30,13 @@ export default function HomeScreen() {
             </>
         }
       </ScrollView>
-      {/* "Фиксированная" кнопка */}
+      {/* "Фиксированная" кнопка добавления счета */}
      <WalletAdd />
     </View>
   );
 }
 
+// Стили
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,

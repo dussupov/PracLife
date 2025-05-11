@@ -31,6 +31,7 @@ const WalletItems = () => {
     { type: 'cash', label: 'Наличные', icon: <MaterialCommunityIcons name="cash-multiple" size={24} color="white" /> },
   ]);
 
+  // АНИМАЦИЯ СЕКЦИЙ
   function getInitialAnimatedValues() {
     const values: Record<string, Animated.Value> = {
       card: new Animated.Value(0),
@@ -40,6 +41,7 @@ const WalletItems = () => {
     return values;
   }
 
+  
   const toggleSection = (type: string, length: number) => {
     const isOpen = openSections[type];
     setOpenSections((prev) => ({ ...prev, [type]: !isOpen }));
@@ -115,6 +117,7 @@ const WalletItems = () => {
 
 export default WalletItems;
 
+// СТИЛИ
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgb(28,28,28)',
