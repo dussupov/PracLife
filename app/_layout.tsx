@@ -51,7 +51,7 @@ export default function RootLayout() {
             <Stack.Screen name="(modals)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>
-          <StatusBar style="auto" />
+          
         </ToastProvider>
       </ThemeProvider>
       </PersistGate>

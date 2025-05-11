@@ -16,6 +16,8 @@ const WalletEmpty = () => {
   );
 };
 
+
+// Стили для пустого экрана
 const styles = StyleSheet.create({
   container: {
     flex: 1,

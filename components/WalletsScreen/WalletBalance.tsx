@@ -5,10 +5,10 @@ import {useEffect, useState} from "react";
 import formatMoney from "@/scripts/formatMoney";
 
 const WalletBalance = () => {
-
   const [balance, setBalance] = useState<number>(0);
   const walletStore = useSelector((state: RootState) => state.wallet);
 
+  // Рассчитываем баланс всех счетов
   useEffect(()=>{
     const totalBalance = walletStore.wallets.reduce((acc, wallet) => {
       return acc + wallet.value;
@@ -28,6 +28,7 @@ const WalletBalance = () => {
   )
 }
 
+// Стили
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,

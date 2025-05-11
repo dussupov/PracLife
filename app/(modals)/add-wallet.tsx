@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -9,6 +9,8 @@ import { RootState } from '@/redux';
 import { useToast } from 'react-native-toast-notifications';
 
 export default function AddWalletScreen() {
+
+  // СОСТОЯНИЕ КОМПОНЕНТЫ
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [accountNumber, setAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -19,8 +21,10 @@ export default function AddWalletScreen() {
   const router = useRouter();
   const walletStore = useSelector((state: RootState) => state.wallet);
 
+  // ВЫПЛЫВАШКА
   const toast = useToast();
 
+  // ТИПЫ СЧЕТОВ
   const walletAr = [
     {
       name: 'Карта',
@@ -39,6 +43,7 @@ export default function AddWalletScreen() {
     },
   ];
 
+  // ОЧИЩЕНИЕ И ЗАПОМИНАНИЕ ВЫБРАННОГО СЧЕТА
   const handleSelect = (type: string) => {
     setSelectedType(type);
     setAccountNumber('');
@@ -47,6 +52,7 @@ export default function AddWalletScreen() {
     setErrors({});
   };
 
+  // ПРОВЕРКА ФОРМЫ
   const validateForm = () => {
     const newErrors: typeof errors = {};
 
@@ -68,9 +74,12 @@ export default function AddWalletScreen() {
     return Object.keys(newErrors).length === 0;
   };
 
+
+  // СОЗДАНИЕ СЧЕТА
   const handleSave = () => {
     if (!validateForm()) return;
 
+    // СОЗДАНИЕ НОВОГО СЧЕТА
     const newWallet = {
       id: uuidv4(),
       type: selectedType,
@@ -79,7 +88,10 @@ export default function AddWalletScreen() {
       value: parseFloat(amount),
     };
 
+    // ДОБАВЛЕНИЕ СЧЕТА В СПИСОК СЧЕТОВ
     dispatch({ type: 'SET_WALLETS', wallets: [...walletStore.wallets, newWallet] });
+
+    // ОТОБРАЖЕНИЕ ВЫПЛЫВАШКИ
     toast.show(`${newWallet.name} успешно добавлен`, { type: 'success' });
     router.back();
   };
@@ -92,17 +104,19 @@ export default function AddWalletScreen() {
     >
       <Text style={styles.title}>Выберите тип счёта:</Text>
 
+      {/* ВЫВОДИМ НАШИ ТИПЫ СЧЕТОВ ЧЕРЕЗ ЦИКЛ */}
       {walletAr.map((item) => (
         <TouchableOpacity
           key={item.type}
-          style={[styles.card, selectedType === item.type && styles.cardSelected]}
+          style={[styles.card, selectedType === item.type && styles.cardSelected]} // Подсветка выбранного типа
           onPress={() => handleSelect(item.type)}
         >
           <View style={styles.icon}>{item.icon}</View>
           <Text style={styles.cardText}>{item.name}</Text>
         </TouchableOpacity>
       ))}
-
+      
+      {/* ЕСЛИ У НАС ВЫБРАН ЛЮБОЙ ТИП СЧЕТА */}
       {selectedType && (
         <View style={styles.form}>
           <TextInput
@@ -113,9 +127,11 @@ export default function AddWalletScreen() {
             value={name}
             onChangeText={setName}
           />
+          {/* ВЫВОДИМ ОШИБКИ */}
           {errors.name && (
             <Text style={styles.error}>{errors.name}</Text>
           )}
+          {/* ЕСЛИ СЧЕТ НЕ НАЛИЧНЫЙ ПОКАЗЫВАЕТ ВВЕДИТЕ НОМЕР СЧЕТ*/}
           {selectedType !== 'cash' && (
             <>
               <TextInput
@@ -126,12 +142,13 @@ export default function AddWalletScreen() {
                 value={accountNumber}
                 onChangeText={setAccountNumber}
               />
+              {/* ВЫВОДИМ ОШИБКИ */}
               {errors.accountNumber && (
                 <Text style={styles.error}>{errors.accountNumber}</Text>
               )}
             </>
           )}
-
+          
           <TextInput
             style={styles.input}
             placeholder="Введите сумму"
@@ -140,6 +157,7 @@ export default function AddWalletScreen() {
             value={amount}
             onChangeText={setAmount}
           />
+          {/* ВЫВОДИМ ОШИБКИ */}
           {errors.amount && (
             <Text style={styles.error}>{errors.amount}</Text>
           )}
@@ -153,6 +171,7 @@ export default function AddWalletScreen() {
   );
 }
 
+// Стили
 const styles = StyleSheet.create({
   container: {
     flex: 1,

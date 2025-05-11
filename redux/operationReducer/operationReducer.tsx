@@ -3,13 +3,13 @@ import { AppState, AppAction } from "../operationReducer/types";
 const initialState: AppState = {
   operations: [],
   limits: [
-    { type: 'cafe', limit: 0, currentLimit: 0 },
-    { type: 'products', limit: 0, currentLimit: 0 },
-    { type: 'car', limit: 0, currentLimit: 0 },
-    { type: 'subscriptions', limit: 0, currentLimit: 0  },
-    { type: 'taxi', limit: 0, currentLimit: 0  },
-    { type: 'entertainment', limit: 0, currentLimit: 0 },
-    { type: 'other', limit: 0, currentLimit: 0 },
+    { type: 'cafe', limit: 10000, currentLimit: 0 },
+    { type: 'products', limit: 10000, currentLimit: 0 },
+    { type: 'car', limit: 10000, currentLimit: 0 },
+    { type: 'subscriptions', limit: 10000, currentLimit: 0  },
+    { type: 'taxi', limit: 10000, currentLimit: 0  },
+    { type: 'entertainment', limit: 10000, currentLimit: 0 },
+    { type: 'other', limit: 10000, currentLimit: 0 },
   ],
 };
 

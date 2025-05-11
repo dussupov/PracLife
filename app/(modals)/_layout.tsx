@@ -26,13 +26,15 @@ export default function ModalsLayout() {
         headerTintColor: '#ffffff', // цвет стрелки «назад» и иконок
       }}
     >
-
+      {/* ЭКРАН ДОБАВЛЕНИЯ СЧЕТА */}
       <Stack.Screen
         name="add-wallet"
         options={{
           title: 'Добавление счета', // Вот здесь задаем заголовок
         }}
       />
+
+      {/* ЭКРАН ДОБАВЛЕНИЯ ОПЕРАЦИЙ */}
       <Stack.Screen
         name="add-operation"
         options={{

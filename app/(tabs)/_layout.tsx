@@ -9,6 +9,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { TouchableOpacity } from 'react-native';
 
+// Фон таббара , красивый, прозрачный
 const TabBarBackground = () => (
   <BlurView
     blurType="light"
@@ -22,9 +23,11 @@ const TabBarBackground = () => (
   />
 );
 
+// Кнопка перезагрузки
 const ReloadButton = () => {
   const navigation = useNavigation();
 
+  // Функция перезагрузки
   const handleReload = () => {
     navigation.reset({
       index: 0,
@@ -32,6 +35,7 @@ const ReloadButton = () => {
     });
   };
 
+  // Отрисовываем кнопку
   return (
     <TouchableOpacity onPress={handleReload} style={{ marginRight: 15 }}>
       <Ionicons name="reload" size={24} color="#ffffff" />
@@ -52,27 +56,27 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: true,
-        tabBarShowLabel: true,
-        tabBarActiveTintColor: '#fe2942',
-        tabBarInactiveTintColor: '#ffffff',
+        headerShown: true, // Показываем хедер
+        tabBarShowLabel: true, // Показываем названия табов
+        tabBarActiveTintColor: '#fe2942', // Цвет активного таба
+        tabBarInactiveTintColor: '#ffffff', // Цвет неактивного таба
         tabBarBackground: () => <TabBarBackground />,
-        headerStyle: {
+        headerStyle: {  // Стили для header
           backgroundColor: '#2c2c2c',
           shadowOpacity: 0,
           elevation: 0,
           borderBottomWidth: 0,
         },
-        headerTitleStyle: {
+        headerTitleStyle: {  // Шрифт для заголовка
           fontSize: 20,
           fontWeight: '600',
           color: '#fff',
           fontFamily: 'Montserrat_700Bold',
         },
-        headerTransparent: true,
-        headerTintColor: '#ffffff',
+        headerTransparent: true, // делаем хедер прозрачным
+        headerTintColor: '#ffffff', // цвет стрелки «назад» и иконок
         headerRight: () => <ReloadButton />, // добавляем кнопку перезагрузки
-        tabBarStyle: {
+        tabBarStyle: { // Стили для таббара
           position: 'absolute',
           left: 20,
           right: 20,
@@ -94,6 +98,9 @@ export default function TabLayout() {
         },
       }}
     >
+      {/* ЗДЕСЬ У НАС ЭКРАНЫ */}
+
+      {/* ДОМАШНИЙ ЭКРАН СЧЕТОВ */}
       <Tabs.Screen
         name="index"
         options={{
@@ -103,6 +110,8 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      {/* ЭКРАН ОПЕРАЦИЙ */}
       <Tabs.Screen
         name="operation"
         options={{
@@ -112,6 +121,8 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      {/* ЭКРАН АНАЛИТИКИ */}
       <Tabs.Screen
         name="analytics"
         options={{
@@ -121,6 +132,8 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      {/* ЭКРАН НАСТРОЕК */}
       <Tabs.Screen
         name="settings"
         options={{
