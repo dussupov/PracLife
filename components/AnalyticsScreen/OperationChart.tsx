@@ -1,14 +1,8 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import {VictoryPie, VictoryChart, VictoryBar, VictoryAxis, VictoryGroup, VictoryLabel} from 'victory-native';
-import Entypo from "@expo/vector-icons/Entypo";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FinancialAdvice from "@/components/AnalyticsScreen/FinancialAdvice";
+import CheckAnalytics from "@/components/AnalyticsScreen/CheckAnalytics";
 
 interface Operation {
   id: string;
@@ -109,6 +103,8 @@ const OperationsChart: React.FC<OperationsChartProps> = ({ data }) => {
       </View>
 
       <FinancialAdvice data={data} />
+
+      <CheckAnalytics data={data} />
 
     </ScrollView>
   );
